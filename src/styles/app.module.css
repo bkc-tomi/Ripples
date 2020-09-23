@@ -1,0 +1,11 @@
+.canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.switch {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}

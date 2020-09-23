@@ -1,0 +1,57 @@
+.container {
+    display: block;
+    position: relative;
+    width: 70px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.backBar {
+    display: block;
+    position: absolute;
+    font-size: 14px;
+    line-height: 20px;
+    padding: 0 5px;
+    top: 5px;
+    left: 5px;
+    width: 50px;
+    height: 20px;
+    border-radius: calc(25px/2);
+}
+
+.backBarLight {
+    text-align: right;
+    background: #818181;
+    box-shadow: 0 0 5px #000000;
+}
+.backBarDark {
+    text-align: left;
+    background: #404063;
+    box-shadow: 0 0 5px #ffffff;
+}
+
+.btnLight {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 5px #000000;
+    transition: all 0.3s ease-out;
+}
+
+.btnDark {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 40px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #232346;
+    box-shadow: 0 0 5px #ffffff;
+    transition: all 0.3s ease-out;
+}

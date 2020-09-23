@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Styles from "./styles/app.module.css";
+import P5Wrapper from "react-p5-wrapper"
+import { Sketch } from "./scripts/sketch";
+import { Switch } from "./scripts/switch";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [mode, setMode] = useState("light");
+    const changeMode = (value) => {
+        setMode(value);
+        console.log(mode);
+    }
+    return (
+        <>
+        <P5Wrapper sketch={ Sketch } mode={ mode }/>
+        <div className={ Styles.switch }>
+            <Switch 
+                handler={ changeMode }
+            />
+        </div>
+        </>
+
+    );
 }
 
 export default App;
