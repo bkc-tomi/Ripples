@@ -24,7 +24,7 @@ const Switch = (props) => {
                 onClick={ changeState }
             >
                 <div 
-                    className={ `${Styles.backBar}` + " " + `${Styles.backBarLight}` }
+                    className={ `${Styles.backBar}`.concat(" ", `${Styles.backBarLight}`) }
                 >
                     light
                 </div>
@@ -40,7 +40,7 @@ const Switch = (props) => {
             className={ Styles.container }
         >
             <div 
-                className={ `${Styles.backBar}` + " " + `${Styles.backBarDark}` }
+                className={ `${Styles.backBar}`.concat(" ", `${Styles.backBarDark}`) }
             >
                 dark
             </div>
