@@ -1,4 +1,31 @@
+import { db } from "./firebase";
+
+const saveRipple = (ripple) => {
+    const date = new Date();
+    const today = date.valueOf().toString();
+    // console.log(date.valueOf());
+    db.collection("ripples").doc(today).set({
+        ripple: ripple,
+        date:   date.valueOf(),
+    })
+    .then(() => {
+        // console.log("success");
+    })
+    .catch(err => {
+        console.log(err);
+    });
+
+    db.collection("ripples").doc(today).delete()
+    .then(() => {
+
+    })
+    .catch(err => {
+        console.log(err);
+    });
+}
+
 const Sketch = (p) => {
+    
     /**
      * クリックした時に出来るrippleオブジェクトを格納しておく配列
      * クリックと同時に新しいrippleオブジェクトが追加され、透明度a
@@ -7,7 +34,6 @@ const Sketch = (p) => {
      * しているのでクラス実装の仕方を調べる。
      */
     const ripples = [];
-    let ripple; // rippleオブジェクト
     let itr = 0; // noise生成の種
     /**
      * rippleオブジェクトの状態を更新する関数
@@ -32,7 +58,7 @@ const Sketch = (p) => {
         p.fill(ripple.c, 255, 255, ripple.a);
         p.ellipse(ripple.x, ripple.y, ripple.r);
     }
-
+    
     /**
      * セットアップの関数。
      * ウィンドウサイズが変更される度に呼ばれるので
@@ -54,16 +80,29 @@ const Sketch = (p) => {
         p.background(0, 0, 0);
         p.blendMode(p.LIGHTEST);
     }
-
+    
     const light = () => {
         p.blendMode(p.BLEND);
         p.background(0, 0, 255);
         p.blendMode(p.DIFFERENCE);
     }
-
+    
     p.myCustomRedrawAccordingToNewPropsHandler = (props) => {
         mode = props.mode;
     }
+    
+    db.collection("ripples").onSnapshot(snapshots => {
+        snapshots.forEach(snapshot => {
+            const ripple = {
+                x: snapshot.data().ripple.x * p.windowWidth,
+                y: snapshot.data().ripple.y * p.windowHeight,
+                c: snapshot.data().ripple.c,
+                r: 0,
+                a: 100,
+            }
+            ripples.push(ripple);
+        });
+    });
 
     p.setup = () => {
         initSetup();
@@ -88,14 +127,16 @@ const Sketch = (p) => {
         }
         // マウスをクリックする度に新しいrippleオブジェクトを生成
         if (p.mouseIsPressed) {
-            ripple = {
-                x: p.mouseX,
-                y: p.mouseY,
-                c: p.floor(p.noise(itr/50) * 300),
-                r: 0,
-                a: 100,
+            const posX = p.mouseX / p.windowWidth;
+            const posY = p.mouseY / p.windowHeight;
+            const color = p.floor(p.noise(itr/50) * 300);
+            // console.log(posX, posY);
+            const dbRipple = {
+                x: posX,
+                y: posY,
+                c: color,
             }
-            ripples.push(ripple);
+            saveRipple(dbRipple);
         }
         itr++;
     }
